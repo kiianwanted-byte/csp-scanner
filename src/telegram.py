@@ -37,8 +37,10 @@ def send(text: str) -> bool:
         return False
 
 
-def format_candidate(c: dict) -> str:
+def format_candidate(c: dict, fx: float = 1.29) -> str:
+    """fx is USD to SGD. Collateral and premium shown in both."""
     e = c["exit"]
+    prem_usd = c["bid"] * 100
     return (
         "CSP Candidate\n"
         "<pre>"
@@ -47,8 +49,11 @@ def format_candidate(c: dict) -> str:
         f"EXPIRY      {c['expiry']} ({c['dte']} DTE)\n"
         f"DELTA       {c['delta']:.2f}\n"
         f"BID         {c['bid']:.2f}\n"
-        f"COLLATERAL  ${c['collateral']:,.0f}\n"
-        f"ANN. ROC    {c['ann_roc']:.1%}\n"
+        "\n"
+        f"PREMIUM     USD {prem_usd:,.0f}  /  SGD {prem_usd * fx:,.0f}\n"
+        f"COLLATERAL  USD {c['collateral']:,.0f}  /  "
+        f"SGD {c['collateral'] * fx:,.0f}\n"
+        "\n"
         f"BREAKEVEN   {c['breakeven']:.2f} ({c['breakeven_pct']:+.1%})\n"
         f"BUFFER      {c['buffer_ratio']:.2f}x expected move\n"
         f"SCORE       {c['score']:.1f} / 10\n"
@@ -58,11 +63,12 @@ def format_candidate(c: dict) -> str:
         f"TIME STOP   {e['time_stop_date']} ({e['time_stop_dte']} DTE)\n"
         f"COST BASIS  {e['cost_basis_if_assigned']:.2f} if assigned\n"
         "</pre>"
+        f"<i>FX 1 USD = {fx:.3f} SGD</i>"
     )
 
 
 def format_digest(scanned: int, evaluated: int, passed: int, alerts_on: bool,
-                  breakdown: list, top: list) -> str:
+                  breakdown: list, top: list, fx: float = 1.29) -> str:
     mode = "ALERTS ON" if alerts_on else "LOG ONLY"
     out = (
         "CSP Scanner weekly digest\n"
@@ -95,4 +101,4 @@ def format_digest(scanned: int, evaluated: int, passed: int, alerts_on: bool,
 
 def format_liveness(scanned: int, evaluated: int, passed: int,
                     alerts_on: bool) -> str:
-    return format_digest(scanned, evaluated, passed, alerts_on, [], [])
+    return format_digest(scanned, evaluated, passed, alerts_on, [], [], 1.29)

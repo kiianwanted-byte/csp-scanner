@@ -15,7 +15,7 @@ from pathlib import Path
 from src import gates, telegram
 from src.market_hours import market_status
 from src.config import ConfigError, load_config
-from src.data import YFinanceProvider, bs_put_delta
+from src.data import YFinanceProvider, bs_put_delta, get_usd_sgd
 from src.exits import build_exit_plan
 from src.logging_csv import ScanLog
 from src.scoring import score_contract
@@ -107,6 +107,8 @@ def main() -> int:
     iv_history = load_iv_history()
     log = ScanLog()
     provider = YFinanceProvider(cfg.request_delay_seconds, cfg.max_retries)
+    fx, fx_live = get_usd_sgd()
+    print(f"USD/SGD {fx:.4f} ({'live' if fx_live else 'fallback'})")
 
     print(f"Scanning {len(universe)} tickers, tiers {cfg.enabled_tiers}, "
           f"alerts={'ON' if cfg.alerts_enabled else 'OFF'}")
@@ -226,7 +228,7 @@ def main() -> int:
 
     if not args.dry_run and cfg.alerts_enabled and top:
         for c in top:
-            telegram.send(telegram.format_candidate(c))
+            telegram.send(telegram.format_candidate(c, fx))
         print(f"Sent {len(top)} alerts")
     elif top:
         print("Alerts disabled. Top candidates:")
@@ -237,7 +239,7 @@ def main() -> int:
     if not args.dry_run and cfg.liveness_ping and is_liveness_day:
         telegram.send(telegram.format_digest(
             len(universe), evaluated, len(candidates), cfg.alerts_enabled,
-            gate_breakdown(), top))
+            gate_breakdown(), top, fx))
         print("Weekly digest sent")
 
     return 0

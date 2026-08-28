@@ -209,3 +209,20 @@ def bs_put_delta(spot: float, strike: float, iv: float, dte: int,
     # N(-d1) via the error function
     nd1 = 0.5 * (1 + math.erf(-d1 / math.sqrt(2)))
     return nd1
+
+
+FX_FALLBACK = 1.29  # used only if the live rate cannot be fetched
+
+
+def get_usd_sgd() -> tuple[float, bool]:
+    """Returns (rate, is_live). Falls back to a constant on failure."""
+    try:
+        import yfinance as yf
+        h = yf.Ticker("USDSGD=X").history(period="5d")
+        if h is not None and not h.empty:
+            r = float(h["Close"].dropna().iloc[-1])
+            if 1.0 < r < 2.0:
+                return r, True
+    except Exception:  # noqa: BLE001
+        pass
+    return FX_FALLBACK, False
