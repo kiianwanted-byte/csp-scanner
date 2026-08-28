@@ -2,9 +2,11 @@ name: CSP Scan
 
 on:
   schedule:
-    # 14:15 UTC = 10:15 ET = 45 min after US open during DST
-    # 22:15 SGT. Adjust to 15:15 UTC when US leaves DST.
+    # Two times to cover US daylight saving. The script checks the real
+    # NYSE calendar and only proceeds inside the correct window, so exactly
+    # one of these runs each day. No manual change needed in November.
     - cron: '15 14 * * 1-5'
+    - cron: '15 15 * * 1-5'
   workflow_dispatch:
 
 permissions:

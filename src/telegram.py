@@ -61,16 +61,38 @@ def format_candidate(c: dict) -> str:
     )
 
 
-def format_liveness(scanned: int, evaluated: int, passed: int,
-                    alerts_on: bool) -> str:
+def format_digest(scanned: int, evaluated: int, passed: int, alerts_on: bool,
+                  breakdown: list, top: list) -> str:
     mode = "ALERTS ON" if alerts_on else "LOG ONLY"
-    return (
-        "CSP Scanner weekly check\n"
+    out = (
+        "CSP Scanner weekly digest\n"
         "<pre>"
         f"MODE        {mode}\n"
         f"TICKERS     {scanned}\n"
-        f"CONTRACTS   {evaluated}\n"
-        f"PASSED      {passed}\n"
+        f"CONTRACTS   {evaluated} today\n"
+        f"PASSED      {passed} today\n"
         "</pre>"
-        "Bot is alive."
     )
+    if breakdown:
+        total = sum(n for _, n in breakdown)
+        lines = "".join(
+            f"{g[:12]:<12} {n:>5}  {n/total:>5.0%}\n" for g, n in breakdown[:8]
+        )
+        out += (
+            "\nWhat blocked trades this week\n"
+            f"<pre>{lines}</pre>"
+        )
+    if top:
+        lines = "".join(
+            f"{c['ticker']:<6} {c['strike']:>7g}P  {c['score']:>4.1f}\n"
+            for c in top[:5]
+        )
+        out += f"\nTop candidates today\n<pre>{lines}</pre>"
+    else:
+        out += "\nNo candidates passed today."
+    return out
+
+
+def format_liveness(scanned: int, evaluated: int, passed: int,
+                    alerts_on: bool) -> str:
+    return format_digest(scanned, evaluated, passed, alerts_on, [], [])

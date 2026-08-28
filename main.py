@@ -13,7 +13,7 @@ from datetime import date
 from pathlib import Path
 
 from src import gates, telegram
-from src.calendar_check import is_trading_day
+from src.market_hours import market_status
 from src.config import ConfigError, load_config
 from src.data import YFinanceProvider, bs_put_delta
 from src.exits import build_exit_plan
@@ -51,6 +51,24 @@ def append_iv_snapshot(ticker: str, iv: float, path="data/iv_history.csv") -> No
         w.writerow([date.today().isoformat(), ticker, round(iv, 4)])
 
 
+def gate_breakdown(path="data/scan_log.csv", days=7) -> list[tuple[str, int]]:
+    """Which gate rejected the most over the last N days."""
+    from collections import Counter
+    from datetime import timedelta
+    p = Path(path)
+    if not p.exists():
+        return []
+    cutoff = (date.today() - timedelta(days=days)).isoformat()
+    c: Counter = Counter()
+    with p.open(newline="") as f:
+        for row in csv.DictReader(f):
+            if (row.get("timestamp") or "") < cutoff:
+                continue
+            g = row.get("failed_gate") or "PASSED"
+            c[g] += 1
+    return c.most_common()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tickers", help="comma separated, overrides the universe")
@@ -65,9 +83,17 @@ def main() -> int:
         return 1
 
     today = date.today()
-    if not is_trading_day(today):
-        print(f"{today} is not a US trading day. Exiting.")
+    is_liveness_day = DAYS[today.weekday()] == cfg.liveness_day
+    open_now, why = market_status()
+    if not open_now:
+        print(f"Not scanning: {why}")
+        if (not args.dry_run and cfg.liveness_ping and is_liveness_day
+                and "weekend" not in why and "holiday" not in why):
+            pass  # a skipped weekday still reports on Monday below
+        else:
+            return 0
         return 0
+    print(f"Market {why}")
 
     universe = load_universe()
     if args.tickers:
@@ -116,11 +142,6 @@ def main() -> int:
             if tier is None:
                 log.add(**base, failed_gate="tier",
                         reason="strike outside enabled tiers")
-                continue
-
-            if c.bid is None or c.bid <= 0 or c.ask is None or c.ask <= 0:
-                log.add(**base, failed_gate="quote",
-                        reason="no live bid/ask, market closed or unquoted")
                 continue
 
             r = gates.gate_events(snap.earnings_date, snap.ex_div_date,
@@ -213,11 +234,11 @@ def main() -> int:
             print(f"  {c['ticker']} {c['strike']:g}P {c['expiry']} "
                   f"score {c['score']}")
 
-    if (not args.dry_run and cfg.liveness_ping
-            and DAYS[today.weekday()] == cfg.liveness_day):
-        telegram.send(telegram.format_liveness(
-            len(universe), evaluated, len(candidates), cfg.alerts_enabled))
-        print("Liveness ping sent")
+    if not args.dry_run and cfg.liveness_ping and is_liveness_day:
+        telegram.send(telegram.format_digest(
+            len(universe), evaluated, len(candidates), cfg.alerts_enabled,
+            gate_breakdown(), top))
+        print("Weekly digest sent")
 
     return 0
 

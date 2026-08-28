@@ -20,7 +20,7 @@ mode:
 #   under 15,000  -> [a]
 #   15,000-40,000 -> [a, b]
 #   above 40,000  -> [a, b, c]
-enabled_tiers: [a, b, c]
+enabled_tiers: [a]
 
 universal:
   dte_min: 30
