@@ -1,0 +1,94 @@
+# CSP Scanner configuration
+# Edit thresholds here. Never in code.
+
+account:
+  # Total capital available for CSPs, in USD.
+  # SET THIS BEFORE FIRST RUN.
+  capital: 15000
+  currency: USD
+
+mode:
+  # false = log to CSV only, no Telegram alerts for candidates.
+  # Leave false until you have reviewed 8 weeks of logged output.
+  alerts_enabled: false
+  # Liveness ping still fires even in log-only mode.
+  liveness_ping: true
+  liveness_day: monday
+
+# Tiers are selected by STRIKE price, not underlying price.
+# Enable based on capital:
+#   under 15,000  -> [a]
+#   15,000-40,000 -> [a, b]
+#   above 40,000  -> [a, b, c]
+enabled_tiers: [a, b, c]
+
+universal:
+  dte_min: 30
+  dte_max: 45
+  delta_min: 0.15
+  delta_max: 0.30
+  annualised_roc_min: 0.15
+  # Breakeven distance as a multiple of one expected move.
+  # NOTE: this gate overlaps with delta. A 0.15 delta put sits about 0.88x
+  # out, 0.30 delta about 0.42x. Setting this above 0.90 will reject almost
+  # everything in the 0.15-0.30 delta band. 0.85 is the sensible default.
+  min_buffer_ratio: 0.85
+  require_iv_above_realised: true
+  iv_rank_min: 30              # only applied once 250+ days of history exist
+  earnings_before_expiry: exclude
+  ex_div_before_expiry: flag
+  max_pct_capital_per_name: 0.20
+  max_pct_capital_per_sector: 0.30
+  max_concurrent_positions: 3
+  top_n_alerts: 5
+
+tiers:
+  a:
+    strike_min: 0
+    strike_max: 50
+    min_bid: 0.15
+    min_premium_pct_of_strike: 0.006
+    max_spread_pct_of_mid: 0.12
+    max_spread_abs: 0.06
+    min_open_interest: 500
+    min_contract_volume: 20
+    min_underlying_avg_volume: 5000000
+
+  b:
+    strike_min: 50
+    strike_max: 150
+    min_bid: 0.40
+    min_premium_pct_of_strike: 0.007
+    max_spread_pct_of_mid: 0.08
+    max_spread_abs: 0.10
+    min_open_interest: 300
+    min_contract_volume: 20
+    min_underlying_avg_volume: 2000000
+
+  c:
+    strike_min: 150
+    strike_max: 400
+    min_bid: 1.00
+    min_premium_pct_of_strike: 0.008
+    max_spread_pct_of_mid: 0.05
+    max_spread_abs: 0.20
+    min_open_interest: 200
+    min_contract_volume: 10
+    min_underlying_avg_volume: 1000000
+
+scoring:
+  weight_protection: 0.40
+  weight_payoff: 0.35
+  weight_liquidity: 0.25
+  protection_full_score_ratio: 1.5   # breakeven distance / expected move
+  payoff_full_score_roc: 0.40        # 40% annualised = full marks
+
+exits:
+  profit_target_pct: 0.50
+  time_stop_dte: 21
+  max_rolls: 2
+
+data:
+  provider: yfinance          # swap target: tradier
+  request_delay_seconds: 0.5  # be polite, avoid rate limits
+  max_retries: 3
