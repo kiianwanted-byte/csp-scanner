@@ -2,9 +2,14 @@
 from __future__ import annotations
 
 import os
+
 import requests
 
 API = "https://api.telegram.org/bot{token}/sendMessage"
+
+# Prefixed to every outbound message. All bots post to the one SCOUT channel
+# and every post shows as "SCOUT", so this is the only source attribution.
+SOURCE_TAG = "\U0001F4CB"
 
 
 class TelegramError(Exception):
@@ -19,13 +24,23 @@ def _creds() -> tuple[str, str]:
     return token, chat
 
 
-def send(text: str) -> bool:
+def send(text: str, silent: bool = True) -> bool:
+    """
+    Single choke point for every outbound message.
+
+    SOURCE_TAG is prefixed here so no formatter needs to know about it.
+    silent defaults to True: candidates and digests land in the channel
+    without buzzing the phone. Nothing this scanner produces is urgent
+    enough to interrupt, so no caller currently passes False.
+    """
     token, chat = _creds()
     try:
         r = requests.post(
             API.format(token=token),
-            json={"chat_id": chat, "text": text, "parse_mode": "HTML",
-                  "disable_web_page_preview": True},
+            json={"chat_id": chat, "text": f"{SOURCE_TAG} {text}",
+                  "parse_mode": "HTML",
+                  "disable_web_page_preview": True,
+                  "disable_notification": silent},
             timeout=20,
         )
         if r.status_code != 200:
