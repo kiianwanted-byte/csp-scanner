@@ -115,6 +115,7 @@ def main() -> int:
 
     candidates: list[dict] = []
     evaluated = 0
+    data_failures = 0
 
     for entry in universe:
         ticker, sector = entry["ticker"], entry["sector"]
@@ -123,6 +124,7 @@ def main() -> int:
         snap = provider.get_underlying(ticker)
         if snap is None:
             print("  no underlying data, skipping")
+            data_failures += 1
             log.add(ticker=ticker, failed_gate="data",
                     reason="underlying fetch failed")
             continue
@@ -130,6 +132,7 @@ def main() -> int:
         puts = provider.get_puts(ticker, cfg.dte_min, cfg.dte_max)
         if not puts:
             print("  no puts in DTE window")
+            data_failures += 1
             log.add(ticker=ticker, failed_gate="data",
                     reason="no contracts in DTE window")
             continue
@@ -219,6 +222,18 @@ def main() -> int:
         if atm_iv:
             append_iv_snapshot(ticker, atm_iv[1])
 
+    # Data layer health check. If most tickers returned nothing, the
+    # provider is broken, not the market. Alert loudly rather than
+    # reporting a quiet zero.
+    fetch_fail_pct = data_failures / max(len(universe), 1)
+    if fetch_fail_pct > 0.5:
+        msg = (f"CSP Scanner DATA FAILURE\n"
+               f"{data_failures} of {len(universe)} tickers returned no data. "
+               f"yfinance has likely broken. The scanner is blind, not quiet.")
+        print(msg)
+        if not args.dry_run:
+            telegram.send(msg)
+
     written = log.flush()
     candidates.sort(key=lambda x: x["score"], reverse=True)
     top = candidates[: cfg.top_n_alerts]
@@ -230,6 +245,8 @@ def main() -> int:
         for c in top:
             telegram.send(telegram.format_candidate(c, fx))
         print(f"Sent {len(top)} alerts")
+    elif cfg.alerts_enabled and not top:
+        print("No candidates passed. Staying silent.")
     elif top:
         print("Alerts disabled. Top candidates:")
         for c in top:
@@ -246,4 +263,21 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except SystemExit:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        import traceback
+        tb = traceback.format_exc()
+        print(tb)
+        try:
+            from src import telegram as _tg
+            _tg.send(
+                "CSP Scanner CRASHED\n"
+                "<pre>" + str(exc)[:400] + "</pre>"
+                "Scan did not run. Check the Actions log."
+            )
+        except Exception:  # noqa: BLE001
+            pass
+        sys.exit(1)

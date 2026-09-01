@@ -8,9 +8,11 @@ account:
   currency: USD
 
 mode:
-  # false = log to CSV only, no Telegram alerts for candidates.
-  # Leave false until you have reviewed 8 weeks of logged output.
-  alerts_enabled: false
+  # true = send candidate alerts on any day something passes all 8 gates.
+  # Silent on days nothing passes. The weekly digest still fires Mondays
+  # as a liveness signal, since silence alone cannot distinguish
+  # "nothing qualified" from "the bot is dead".
+  alerts_enabled: true
   # Liveness ping still fires even in log-only mode.
   liveness_ping: true
   liveness_day: monday
