@@ -40,7 +40,7 @@ def send(text: str, silent: bool = True) -> bool:
             json={"chat_id": chat, "text": f"{SOURCE_TAG} {text}",
                   "parse_mode": "HTML",
                   "disable_web_page_preview": True,
-                  "disable_notification": silent},
+                  "disable_notification": False},
             timeout=20,
         )
         if r.status_code != 200:
