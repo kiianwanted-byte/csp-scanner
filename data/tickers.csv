@@ -1,63 +1,121 @@
 ticker,sector,approved,notes
-F,Consumer Discretionary,FALSE,"Cheap collateral. Deeply cyclical. Dividend has been cut before."
-T,Communication Services,FALSE,"Low vol, steady dividend, low premium. Heavy debt load."
-VZ,Communication Services,FALSE,"Same profile as T. Do not hold both, it is one bet."
-PFE,Healthcare,FALSE,"Patent cliff and pipeline risk. Cheap entry point."
-BAC,Financials,FALSE,"Rate sensitive. Very liquid chain."
-INTC,Technology,FALSE,"WEAKEST business quality here. Verify before approving."
-CSCO,Technology,FALSE,"Boring, profitable, tight spreads. Low growth."
-KVUE,Consumer Staples,FALSE,"Staples spinoff. Check talc litigation exposure."
-KMI,Energy,FALSE,"Pipeline infrastructure. Steady cash flow, low growth."
-KHC,Consumer Staples,FALSE,"Packaged food. Brand erosion is the known risk."
-MO,Consumer Staples,FALSE,"Tobacco. High yield. Ethical screen may rule this out."
-GM,Consumer Discretionary,FALSE,"Cyclical, EV transition risk."
-HBAN,Financials,FALSE,"Regional bank. Higher risk than money centre banks."
-KO,Consumer Staples,FALSE,"Defensive. Low IV means it will often fail gate 3."
-PEP,Consumer Staples,FALSE,"Same caveat as KO. Do not hold both."
-CVX,Energy,FALSE,"Oil price exposure is the whole trade."
-XOM,Energy,FALSE,"Do not hold alongside CVX, same bet."
-COP,Energy,FALSE,"Pure play E&P. More volatile than XOM or CVX."
-AMD,Technology,FALSE,"Much higher IV than peers. More premium, more assignment risk."
-MU,Technology,FALSE,"Deeply cyclical. Memory pricing drives everything."
-QCOM,Technology,FALSE,"Handset concentration risk. Decent premium."
-GILD,Healthcare,FALSE,"Biotech with real revenue. Pipeline risk remains."
-BMY,Healthcare,FALSE,"Patent cliff. High yield reflects the risk."
-CVS,Healthcare,FALSE,"Retail and insurance combined. Execution has been mixed."
-MRK,Healthcare,FALSE,"Keytruda concentration is the single biggest risk."
-ABBV,Healthcare,FALSE,"Humira cliff largely passed. Check current pipeline."
-WMT,Consumer Staples,FALSE,"Very low IV. Will often fail gate 3."
-TGT,Consumer Discretionary,FALSE,"More volatile than WMT. Execution risk."
-JNJ,Healthcare,FALSE,"Litigation overhang is the known risk."
-CMCSA,Communication Services,FALSE,"Cord cutting is the structural issue."
-DIS,Communication Services,FALSE,"Streaming economics unresolved."
-SBUX,Consumer Discretionary,FALSE,"China exposure and labour costs."
-NKE,Consumer Discretionary,FALSE,"Brand strength but China and inventory risk."
-UPS,Industrials,FALSE,"Volume sensitive to consumer spending."
-GE,Industrials,FALSE,"Post breakup. Verify which entity you are looking at."
-DE,Industrials,FALSE,"Agricultural cycle exposure."
-CAT,Industrials,FALSE,"Cyclical, global growth proxy."
-HON,Industrials,FALSE,"Diversified industrial. Lower vol than CAT."
-RTX,Industrials,FALSE,"Defence. Government budget dependent."
-LMT,Industrials,FALSE,"Same defence exposure as RTX. Do not hold both."
-SO,Utilities,FALSE,"Utility. Very low IV, will rarely pass gate 3."
-DUK,Utilities,FALSE,"Same as SO. Rate regulated."
-NEM,Materials,FALSE,"Gold miner. Correlates with gold, not the market."
-FCX,Materials,FALSE,"Copper. High beta to global growth."
-O,Real Estate,FALSE,"Monthly dividend REIT. Rate sensitive."
-SCHW,Financials,FALSE,"Brokerage. Rate and deposit flow sensitive."
-WFC,Financials,FALSE,"Regulatory history. Do not hold with BAC and JPM."
-C,Financials,FALSE,"Cheapest money centre bank. Turnaround unfinished."
-AAPL,Technology,FALSE,"Highest quality, tightest spreads, largest collateral."
-MSFT,Technology,FALSE,"Check price, may exceed the 400 tier C ceiling."
-GOOGL,Communication Services,FALSE,"Regulatory risk is the tail."
-AMZN,Consumer Discretionary,FALSE,"Retail plus AWS. Two businesses in one position."
-JPM,Financials,FALSE,"Best in class bank. Do not hold alongside BAC."
-V,Financials,FALSE,"Very low IV historically. Will often fail gate 3."
-MA,Financials,FALSE,"Same bet as V. Do not hold both."
-ORCL,Technology,FALSE,"Cloud transition. Debt load worth checking."
-IBM,Technology,FALSE,"Slow growth, high yield."
-TXN,Technology,FALSE,"Analog semis. Less cyclical than MU."
-HD,Consumer Discretionary,FALSE,"Housing cycle exposure."
-LOW,Consumer Discretionary,FALSE,"Same bet as HD. Do not hold both."
-MCD,Consumer Discretionary,FALSE,"Defensive consumer. Low IV."
-UNP,Industrials,FALSE,"Rail. Freight volume proxy."
+AAPL,Technology,TRUE,"Highest quality, tightest spreads, largest collateral."
+ABBV,Healthcare,TRUE,Humira cliff largely passed. Check current pipeline.
+ABT,Healthcare,TRUE,Medical devices. Moderate IV.
+ADI,Technology,TRUE,"Analog semis. Overlaps TXN, do not hold both."
+AMAT,Technology,TRUE,"Semicap. Same cycle as LRCX, do not hold both."
+AMD,Technology,TRUE,"Much higher IV than peers. More premium, more assignment risk."
+AMGN,Healthcare,TRUE,~38k collateral. Biotech pipeline risk.
+AMZN,Consumer Discretionary,TRUE,Retail plus AWS. Two businesses in one position.
+ANET,Technology,TRUE,AI networking. High IV.
+ARM,Technology,TRUE,Very high multiple. High IV.
+AVGO,Technology,TRUE,~34k collateral. High IV semis.
+AXP,Financials,TRUE,~32k collateral. Consumer credit exposure.
+BA,Industrials,TRUE,Aerospace. Execution and regulatory overhang.
+BABA,Consumer Discretionary,TRUE,China ADR. Regulatory and delisting tail risk.
+BAC,Financials,TRUE,Rate sensitive. Very liquid chain.
+BBVA,Financials,TRUE,Spain bank ADR. Thin chain. Overlaps SAN.
+BHP,Energy,TRUE,Australia miner ADR. Commodity exposure.
+BLK,Financials,TRUE,~106k collateral. Not viable for a retail account.
+BMY,Healthcare,TRUE,Patent cliff. High yield reflects the risk.
+BRK-B,Financials,TRUE,"~52k collateral. Note ticker format, some feeds use BRK.B."
+C,Financials,TRUE,Cheapest money centre bank. Turnaround unfinished.
+CAT,Industrials,TRUE,"Cyclical, global growth proxy."
+CMCSA,Communication Services,TRUE,Cord cutting is the structural issue.
+COP,Energy,TRUE,Pure play E&P. More volatile than XOM or CVX.
+COST,Consumer Staples,TRUE,~90k collateral. Low IV as well.
+CRM,Technology,TRUE,Enterprise software. Moderate IV.
+CRWD,Technology,TRUE,Very high multiple. High IV.
+CSCO,Technology,TRUE,"Boring, profitable, tight spreads. Low growth."
+CVS,Healthcare,TRUE,Retail and insurance combined. Execution has been mixed.
+CVX,Energy,TRUE,Oil price exposure is the whole trade.
+DE,Industrials,TRUE,Agricultural cycle exposure.
+DELL,Technology,TRUE,~54k collateral. Ran hard in 2026.
+DIS,Communication Services,TRUE,Streaming economics unresolved.
+DUK,Utilities,TRUE,Same as SO. Rate regulated.
+ETN,Industrials,TRUE,~39k collateral. Electrical equipment.
+F,Consumer Discretionary,TRUE,Cheap collateral. Deeply cyclical. Dividend has been cut before.
+FCX,Materials,TRUE,Copper. High beta to global growth.
+GE,Industrials,TRUE,Post breakup. Verify which entity you are looking at.
+GEV,Industrials,TRUE,~88k collateral. Not viable for a retail account.
+GILD,Healthcare,TRUE,Biotech with real revenue. Pipeline risk remains.
+GM,Consumer Discretionary,TRUE,"Cyclical, EV transition risk."
+GOOGL,Communication Services,TRUE,Regulatory risk is the tail.
+GS,Financials,TRUE,~98k collateral. Not viable for a retail account.
+HBAN,Financials,TRUE,Regional bank. Higher risk than money centre banks.
+HD,Consumer Discretionary,TRUE,Housing cycle exposure.
+HON,Industrials,TRUE,Diversified industrial. Lower vol than CAT.
+HSBC,Financials,TRUE,UK ADR. Options chain is thin.
+IBM,Technology,TRUE,"Slow growth, high yield."
+INTC,Technology,TRUE,WEAKEST business quality here. Verify before approving.
+JNJ,Healthcare,TRUE,Litigation overhang is the known risk.
+JPM,Financials,TRUE,Best in class bank. Do not hold alongside BAC.
+KHC,Consumer Staples,TRUE,Packaged food. Brand erosion is the known risk.
+KLAC,Technology,TRUE,Semicap. Same cycle as LRCX and AMAT.
+KMI,Energy,TRUE,"Pipeline infrastructure. Steady cash flow, low growth."
+KO,Consumer Staples,TRUE,Defensive. Low IV means it will often fail gate 3.
+KVUE,Consumer Staples,TRUE,Staples spinoff. Check talc litigation exposure.
+LIN,Materials,TRUE,"~46k collateral. Industrial gases, low IV."
+LLY,Healthcare,TRUE,~114k collateral. Not viable for a retail CSP account.
+LMT,Industrials,TRUE,Same defence exposure as RTX. Do not hold both.
+LOW,Consumer Discretionary,TRUE,Same bet as HD. Do not hold both.
+LRCX,Technology,TRUE,"Semicap. Deeply cyclical, high IV."
+MA,Financials,TRUE,Same bet as V. Do not hold both.
+MCD,Consumer Discretionary,TRUE,Defensive consumer. Low IV.
+META,Communication Services,TRUE,~67k collateral. Well above small account size.
+MO,Consumer Staples,TRUE,Tobacco. High yield. Ethical screen may rule this out.
+MRK,Healthcare,TRUE,Keytruda concentration is the single biggest risk.
+MRVL,Technology,TRUE,High IV semis. Deeply cyclical.
+MS,Financials,TRUE,Investment bank. Correlates with GS.
+MSFT,Technology,TRUE,"Check price, may exceed the 400 tier C ceiling."
+MU,Technology,TRUE,Deeply cyclical. Memory pricing drives everything.
+MUFG,Financials,TRUE,Japan ADR. Cheap collateral but thin options.
+NEE,Utilities,TRUE,"Utility. Very low IV, will rarely pass gate 3."
+NEM,Materials,TRUE,"Gold miner. Correlates with gold, not the market."
+NFLX,Communication Services,TRUE,Cheap collateral after the 2026 fall. Check what changed.
+NKE,Consumer Discretionary,TRUE,Brand strength but China and inventory risk.
+NVDA,Technology,TRUE,Mega cap. High IV. ~21k collateral per contract.
+NVO,Healthcare,TRUE,Denmark pharma ADR. Cheap collateral. GLP-1 competition.
+NVS,Healthcare,TRUE,Swiss pharma ADR. Thin chain.
+O,Real Estate,TRUE,Monthly dividend REIT. Rate sensitive.
+ORCL,Technology,TRUE,Cloud transition. Debt load worth checking.
+PANW,Technology,TRUE,~38k collateral. Very high multiple.
+PEP,Consumer Staples,TRUE,Same caveat as KO. Do not hold both.
+PFE,Healthcare,TRUE,Patent cliff and pipeline risk. Cheap entry point.
+PG,Consumer Staples,TRUE,Low IV defensive. Will often fail gate 3.
+PLTR,Technology,TRUE,"Very high IV. Rich premium, high assignment risk."
+PM,Consumer Staples,TRUE,Tobacco. Same ethical screen as MO.
+QCOM,Technology,TRUE,Handset concentration risk. Decent premium.
+RTX,Industrials,TRUE,Defence. Government budget dependent.
+RY,Financials,TRUE,Canadian ADR. Thin US options chain.
+SAN,Financials,TRUE,"Spain bank ADR. Cheapest collateral on the list, thin chain."
+SAP,Technology,TRUE,Germany ADR. Thin chain.
+SBUX,Consumer Discretionary,TRUE,China exposure and labour costs.
+SCCO,Materials,TRUE,"Copper miner. Overlaps FCX, do not hold both."
+SCHW,Financials,TRUE,Brokerage. Rate and deposit flow sensitive.
+SHEL,Energy,TRUE,UK oil ADR. Overlaps XOM and CVX.
+SHOP,Technology,TRUE,"E-commerce platform. High IV, no earnings support."
+SNDK,Technology,TRUE,"~153k collateral. Up 545 percent YTD, extreme volatility."
+SO,Utilities,TRUE,"Utility. Very low IV, will rarely pass gate 3."
+STX,Technology,TRUE,~77k collateral. Extreme 2026 move.
+T,Communication Services,TRUE,"Low vol, steady dividend, low premium. Heavy debt load."
+TD,Financials,TRUE,Canadian bank ADR. Thin chain.
+TGT,Consumer Discretionary,TRUE,More volatile than WMT. Execution risk.
+TM,Industrials,TRUE,Japan auto ADR. Thin chain. Overlaps GM and F.
+TMO,Healthcare,TRUE,~64k collateral. Low IV.
+TMUS,Communication Services,TRUE,Telco. Overlaps T and VZ.
+TSLA,Consumer Discretionary,TRUE,Highest IV mega cap. ~36k collateral. Assignment risk is real.
+TSM,Technology,TRUE,Taiwan ADR. ~41k collateral. Geopolitical tail risk.
+TTE,Energy,TRUE,"France oil ADR. Overlaps XOM, CVX, SHEL."
+TXN,Technology,TRUE,Analog semis. Less cyclical than MU.
+UBS,Financials,TRUE,Swiss bank ADR. Thin chain.
+UNH,Healthcare,TRUE,~38k collateral. Sector under pressure.
+UNP,Industrials,TRUE,Rail. Freight volume proxy.
+UPS,Industrials,TRUE,Volume sensitive to consumer spending.
+V,Financials,TRUE,Very low IV historically. Will often fail gate 3.
+VZ,Communication Services,TRUE,"Same profile as T. Do not hold both, it is one bet."
+WDC,Technology,TRUE,"~41k collateral. Storage, same cycle as STX and SNDK."
+WELL,Real Estate,TRUE,Healthcare REIT. Rate sensitive. Overlaps O.
+WFC,Financials,TRUE,Regulatory history. Do not hold with BAC and JPM.
+WMT,Consumer Staples,TRUE,Very low IV. Will often fail gate 3.
+XOM,Energy,TRUE,"Do not hold alongside CVX, same bet."
